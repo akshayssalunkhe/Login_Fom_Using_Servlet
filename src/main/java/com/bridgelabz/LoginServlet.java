@@ -18,6 +18,7 @@ public class LoginServlet extends HttpServlet {
 
     //regex pattern
     static String VALID_USERNAME_PATTERN = "^[A-Z]{1}[a-z]{2,}$";
+    static String VALID_PASSWORD_PATTERN = "^(?=.{8})(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]*[^A-Za-z0-9][A-Za-z0-9]*$";
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,7 +28,9 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         boolean validName = (userName != null) && userName.matches(VALID_USERNAME_PATTERN);
-        if (validName && password.equals("123")) {
+        boolean ValidPassword = (password != null) && password.matches(VALID_PASSWORD_PATTERN);
+
+        if (validName && ValidPassword) {
             request.setAttribute("userName", userName);
             request.getRequestDispatcher("LoginSuccess.jsp").forward(request, response);
         } else {
