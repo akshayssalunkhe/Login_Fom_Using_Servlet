@@ -11,7 +11,7 @@
     <title>Login Success Page</title>
 </head>
 <body>
-<h3>Hi <%=request.getAttribute("user")%>, Login Successful.</h3>
+<h3>Hi <%=request.getAttribute("userName")%>, Login Successful.</h3>
 <a href="login.html">Login Page</a>
 </body>
 </html>
