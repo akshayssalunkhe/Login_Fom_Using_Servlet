@@ -2,7 +2,6 @@ package com.bridgelabz;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,25 +11,24 @@ import java.io.PrintWriter;
 
 @WebServlet(
         description = "Login Servlet Testing",
-        urlPatterns = {"/com.bridgelabz.LoginServlet"},
-        initParams = {
-                @WebInitParam(name = "user", value = "Akshay"),
-                @WebInitParam(name = "password", value = "123")
-        }
+        urlPatterns = {"/LoginServlet"}
 )
 
 public class LoginServlet extends HttpServlet {
+
+    //regex pattern
+    static String VALID_USERNAME_PATTERN = "^[A-Z]{1}[a-z]{2,}$";
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //get request parameters for userId and password
-        String user = request.getParameter("user");
-        String pwd = request.getParameter("pwd");
 
-        //get servlet config initial param
-        String userId = getServletConfig().getInitParameter("user");
-        String password = getServletConfig().getInitParameter("password");
-        if (userId.equals(user) && password.equals(pwd)) {
-            request.setAttribute("user", user);
+        //get request parameters for userId and password
+        String userName = request.getParameter("userName");
+        String password = request.getParameter("password");
+
+        boolean validName = (userName != null) && userName.matches(VALID_USERNAME_PATTERN);
+        if (validName && password.equals("123")) {
+            request.setAttribute("userName", userName);
             request.getRequestDispatcher("LoginSuccess.jsp").forward(request, response);
         } else {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
